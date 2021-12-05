@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { create } from "../api/ipfs";
+import { isOccupied } from "../api/grave";
+import MassGrave from "./MassGrave";
 
 function CreateIPFS({registerGrave}) {
   const [inputs, setInputs] = useState({
     name: "",
     note: "",
     birth: "",
+    x: "",
+    y: "",
   });
 
-  const { name, note, birth } = inputs;
+  const { name, note, birth, x, y } = inputs;
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -18,9 +22,19 @@ function CreateIPFS({registerGrave}) {
     });
   };
 
+  const onLocationChange = (x, y) => {
+    setInputs({
+      ...inputs,
+      x: x,
+      y: y,
+    });
+  };
+
   const postIpfs = async () => {
-    if (!name || !note || !birth) return alert("모두 입력해주세요");
-    const { data } = await create(name, note, birth);
+    if (!name || !note || !birth || !x || !y) return alert("모두 입력해주세요");
+    if (isOccupied({ x, y }) === true)
+      return alert("해당 위치에 이미 묘지가 존재합니다.");
+    const { data } = await create(name, note, birth, x, y);
     const { Hash } = data.data;
     console.log(Hash);
     alert(Hash);
@@ -29,15 +43,18 @@ function CreateIPFS({registerGrave}) {
 
   return (
     <div>
-        <input name="name" value={name} onChange={onChange} placeholder="name" />
-        <input name="note" value={note} onChange={onChange} placeholder="note" />
-        <input
-          name="birth"
-          value={birth}
-          onChange={onChange}
-          placeholder="birth"
-        />
+      <input name="name" value={name} onChange={onChange} placeholder="name" />
+      <input name="note" value={note} onChange={onChange} placeholder="note" />
+      <input
+        name="birth"
+        value={birth}
+        onChange={onChange}
+        placeholder="birth"
+      />
+      <input name="x" value={x} onChange={onChange} placeholder="x" />
+      <input name="y" value={y} onChange={onChange} placeholder="y" />
       <button onClick={postIpfs}>post </button>
+      <MassGrave onLocationChange={onLocationChange} />
     </div>
   );
 }
