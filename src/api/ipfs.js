@@ -15,3 +15,22 @@ export async function create(name, note, birth, x, y) {
 
   return await resolve(axios.post(url, formData, config));
 }
+
+export async function get(hash) {
+  const url = `https://ipfs.io/ipfs/${hash}`;
+  
+  const config = {
+    headers: {
+      "content-type": "multipart/form-data",
+    },
+  };
+
+  try {
+    const data = await resolve(axios.get(url));
+    console.log(data);
+    const { name, note, birth, x, y } = data.data.data;
+    return [ name, note, birth, x, y ];
+  } catch {
+    return ["not found"];
+  }
+}

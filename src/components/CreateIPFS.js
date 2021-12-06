@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { create } from "../api/ipfs";
-import { isOccupied } from "../api/grave";
 import MassGrave from "./MassGrave";
+import { GraveInfo } from ".";
 
-function CreateIPFS({registerGrave}) {
+function CreateIPFS({registerGrave, graves}) {
   const [inputs, setInputs] = useState({
     name: "",
     note: "",
@@ -11,6 +11,7 @@ function CreateIPFS({registerGrave}) {
     x: "",
     y: "",
   });
+  const [selected, setSelected] = useState();
 
   const { name, note, birth, x, y } = inputs;
 
@@ -22,7 +23,10 @@ function CreateIPFS({registerGrave}) {
     });
   };
 
-  const onLocationChange = (x, y) => {
+  const onLocationChange = (x, y, grave) => {
+    if(grave) {
+      setSelected(grave);
+    }
     setInputs({
       ...inputs,
       x: x,
@@ -32,8 +36,8 @@ function CreateIPFS({registerGrave}) {
 
   const postIpfs = async () => {
     if (!name || !note || !birth || !x || !y) return alert("모두 입력해주세요");
-    if (isOccupied({ x, y }) === true)
-      return alert("해당 위치에 이미 묘지가 존재합니다.");
+    // if (isOccupied({ x, y, graves }) === true)
+    //   return alert("해당 위치에 이미 묘지가 존재합니다.");
     const { data } = await create(name, note, birth, x, y);
     const { Hash } = data.data;
     console.log(Hash);
@@ -54,7 +58,8 @@ function CreateIPFS({registerGrave}) {
       <input name="x" value={x} onChange={onChange} placeholder="x" />
       <input name="y" value={y} onChange={onChange} placeholder="y" />
       <button onClick={postIpfs}>post </button>
-      <MassGrave onLocationChange={onLocationChange} />
+      <MassGrave onLocationChange={onLocationChange} graves={graves}/>
+      <GraveInfo grave={selected}/>
     </div>
   );
 }

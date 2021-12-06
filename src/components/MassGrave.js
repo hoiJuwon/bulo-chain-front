@@ -1,32 +1,39 @@
-function MassGrave({ onLocationChange }) {
-  // TODO : fetch valid places for new graves
-  const graves = [
+import React, {useState} from "react";
+
+function MassGrave({ onLocationChange, graves }) {
+  console.log("mass grave");
+  console.log("graves", graves);
+  
+  const sample_graves = [
     [0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1],
     [1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1],
     [1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1],
   ];
 
-  function toImage(x, y, c) {
-    if (c === 0)
+  function toImage(x, y, grave) {
+    console.log("toImage");
+    if (!grave)
       return (
         <button class="grass" onClick={() => onLocationChange(x, y)}>
           🌱
         </button>
       );
-    // TODO : onClick하면 등록된 grave 보여줌
-    else return <button class="grave">🪦</button>;
+    else return <button class="grave" onClick={() => onLocationChange(x, y, grave)} key="{c.tokenId}">🪦</button>;
   }
 
+  // TODO: change sample_graves to graves
   return (
     <>
       <div>
         <table>
           <tbody>
-            {graves.map((row, i) => {
+            {sample_graves.map((row, i) => {
               return (
-                <tr>
-                  {row.map((isGrave, j) => {
-                    return <td>{toImage(i, j, isGrave)}</td>;
+                <tr key={i}>
+                  {row.map((grave, j) => {
+                    return <td key={j}>{toImage(i, j, grave)}</td>;
                   })}
                 </tr>
               );

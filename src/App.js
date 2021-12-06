@@ -1,6 +1,7 @@
 import { Web3ReactProvider } from "@web3-react/core";
 import Web3 from "web3";
-import { Connect, CreateIPFS } from "./components";
+import { Connect, CreateIPFS, GraveInfo } from "./components";
+import { get } from "./api/ipfs";
 import { ABI, ADDRESS } from "./config";
 import React, { Component } from "react";
 
@@ -11,6 +12,7 @@ class App extends Component {
   componentWillMount() {
     this.loadBlockchainData();
   }
+
 
   async loadBlockchainData() {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
@@ -23,14 +25,29 @@ class App extends Component {
     this.setState({ bulo });
     const graveCount = await bulo.methods.graveCount().call();
     this.setState({ graveCount });
+
+    const gravesMap = new Array(10);
+    for (var idx = 0; idx < gravesMap.length; idx++) {
+      gravesMap[idx] = new Array(10);
+    }
+    
     for (var i = 0; i < graveCount; i++) {
       const grave = await bulo.methods.Graves(i).call();
       const { uri, tokenId } = grave;
-
-      this.setState({
-        Graves: [...this.state.Graves, { tokenId, uri }],
+      const data = await get(uri);
+      const [x, y] = [data[3], data[4]];
+      if(x!==undefined && y!==undefined) {
+        gravesMap[parseInt(x,10)][parseInt(y,10)] = { tokenId, uri, data };
+      }
+      console.log(data);
+      await this.setState({
+        Graves: [...this.state.Graves, { tokenId, uri, data }],
       });
     }
+    console.log(gravesMap);
+    await this.setState({
+      GravesMap: gravesMap
+    });
   }
 
   constructor(props) {
@@ -39,6 +56,7 @@ class App extends Component {
       account: "",
       graveCount: 0,
       Graves: [],
+      GraveMap: Array.from(Array(10), () => new Array(10)),
       loading: true,
     };
     this.registerGrave = this.registerGrave.bind(this);
@@ -57,19 +75,20 @@ class App extends Component {
     return (
       <Web3ReactProvider getLibrary={getLibrary}>
         <Connect />
-        <CreateIPFS registerGrave={this.registerGrave} />
+        <CreateIPFS registerGrave={this.registerGrave} graves={this.state.GraveMap}/>
         <p>Your account : {this.state.account}</p>
         <p style={{ marginBottom: "30px" }}>
-          Graves count : {this.state.graveCount}
+          {this.state.graveCount} people didn't die.
         </p>
 
-        {this.state.Graves &&
+        {/* {this.state.Graves &&
           this.state.Graves.map((grave) => (
             <div key={grave.tokenId}>
               <p>Graves uri : {grave.uri}</p>
               <p>Graves tokenId : {grave.tokenId}</p>
+              <p>Graves data : {grave.data}</p>
             </div>
-          ))}
+          ))} */}
       </Web3ReactProvider>
     );
   }
