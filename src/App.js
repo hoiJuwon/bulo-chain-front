@@ -9,7 +9,19 @@ function getLibrary(provider) {
   return new Web3(provider);
 }
 class App extends Component {
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      account: "",
+      graveCount: 0,
+      Graves: [],
+      GraveMap: Array.from(Array(10), () => new Array(10).fill(0)),
+      loading: true,
+    };
+    this.registerGrave = this.registerGrave.bind(this);
+  }
+
+  async componentDidMount() {
     this.loadBlockchainData();
   }
 
@@ -26,10 +38,7 @@ class App extends Component {
     const graveCount = await bulo.methods.graveCount().call();
     this.setState({ graveCount });
 
-    const gravesMap = new Array(10);
-    for (var idx = 0; idx < gravesMap.length; idx++) {
-      gravesMap[idx] = new Array(10);
-    }
+    const gravesMap = Array.from(Array(10), () => new Array(10).fill(0));
     
     for (var i = 0; i < graveCount; i++) {
       const grave = await bulo.methods.Graves(i).call();
@@ -37,30 +46,22 @@ class App extends Component {
       const data = await get(uri);
       const [x, y] = [data[3], data[4]];
       if(x!==undefined && y!==undefined) {
+        console.log("gravesMap plot");
         gravesMap[parseInt(x,10)][parseInt(y,10)] = { tokenId, uri, data };
       }
       console.log(data);
-      await this.setState({
+      this.setState({
         Graves: [...this.state.Graves, { tokenId, uri, data }],
       });
     }
+    // return gravesMap;
     console.log(gravesMap);
-    await this.setState({
-      GravesMap: gravesMap
+    this.setState({
+      GraveMap: gravesMap
     });
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      account: "",
-      graveCount: 0,
-      Graves: [],
-      GraveMap: Array.from(Array(10), () => new Array(10)),
-      loading: true,
-    };
-    this.registerGrave = this.registerGrave.bind(this);
-  }
+
   registerGrave(content) {
     this.setState({ loading: true });
     this.state.bulo.methods
@@ -72,6 +73,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("asdf", this.state.GraveMap);
     return (
       <Web3ReactProvider getLibrary={getLibrary}>
         <Connect />

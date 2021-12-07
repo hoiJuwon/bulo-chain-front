@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 
 function MassGrave({ onLocationChange, graves }) {
-  console.log("mass grave");
-  console.log("graves", graves);
+  // console.log("mass grave");
+  // console.log("graves", graves);
   
   const sample_graves = [
     [0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1],
@@ -29,7 +29,7 @@ function MassGrave({ onLocationChange, graves }) {
       <div>
         <table>
           <tbody>
-            {sample_graves.map((row, i) => {
+            {graves.map((row, i) => {
               return (
                 <tr key={i}>
                   {row.map((grave, j) => {

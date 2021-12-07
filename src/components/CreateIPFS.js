@@ -25,7 +25,9 @@ function CreateIPFS({registerGrave, graves}) {
 
   const onLocationChange = (x, y, grave) => {
     if(grave) {
-      setSelected(grave);
+      console.log("set selected", grave.data);
+      setSelected(grave.data);
+      console.log(selected);
     }
     setInputs({
       ...inputs,

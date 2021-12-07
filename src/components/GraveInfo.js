@@ -1,7 +1,9 @@
 function GraveInfo({data}) {
+    console.log("grave info", data);
+    // console.log(data[0]);
     return (
         <>
-          <div>{data?.name}</div>
+          <div>name {data?.name}</div>
           <div>{data?.note}</div>
           <div>{data?.birth}</div>
           <div>{data?.x}</div>
