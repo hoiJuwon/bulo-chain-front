@@ -27,7 +27,7 @@ export async function get(hash) {
 
   try {
     const data = await resolve(axios.get(url));
-    console.log(data);
+    //console.log(data);
     const { name, note, birth, x, y } = data.data.data;
     return [ name, note, birth, x, y ];
   } catch {

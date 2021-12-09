@@ -9,7 +9,7 @@ function Connect() {
     try {
       await activate(injected);
     } catch (ex) {
-      console.log(ex);
+      //console.log(ex);
     }
   }
 
@@ -17,7 +17,7 @@ function Connect() {
     try {
       deactivate();
     } catch (ex) {
-      console.log(ex);
+      //console.log(ex);
     }
   }
 

@@ -1,6 +1,6 @@
 import { Web3ReactProvider } from "@web3-react/core";
 import Web3 from "web3";
-import { Connect, CreateIPFS, GraveInfo } from "./components";
+import { Connect, CreateIPFS } from "./components";
 import { get } from "./api/ipfs";
 import { ABI, ADDRESS } from "./config";
 import React, { Component } from "react";
@@ -38,7 +38,7 @@ class App extends Component {
     const graveCount = await bulo.methods.graveCount().call();
     this.setState({ graveCount });
 
-    const gravesMap = Array.from(Array(10), () => new Array(10).fill(0));
+    const gravesMap = Array.from(Array(11), () => new Array(11).fill(0));
     
     for (var i = 0; i < graveCount; i++) {
       const grave = await bulo.methods.Graves(i).call();
@@ -46,16 +46,16 @@ class App extends Component {
       const data = await get(uri);
       const [x, y] = [data[3], data[4]];
       if(x!==undefined && y!==undefined) {
-        console.log("gravesMap plot");
+        //console.log("gravesMap plot");
         gravesMap[parseInt(x,10)][parseInt(y,10)] = { tokenId, uri, data };
       }
-      console.log(data);
+      //console.log(data);
       this.setState({
         Graves: [...this.state.Graves, { tokenId, uri, data }],
       });
     }
     // return gravesMap;
-    console.log(gravesMap);
+    // console.log(gravesMap);
     this.setState({
       GraveMap: gravesMap
     });
@@ -73,14 +73,14 @@ class App extends Component {
   }
 
   render() {
-    console.log("asdf", this.state.GraveMap);
+    //console.log("asdf", this.state.GraveMap);
     return (
       <Web3ReactProvider getLibrary={getLibrary}>
         <Connect />
         <CreateIPFS registerGrave={this.registerGrave} graves={this.state.GraveMap}/>
         <p>Your account : {this.state.account}</p>
         <p style={{ marginBottom: "30px" }}>
-          {this.state.graveCount} people didn't die.
+          {this.state.graveCount} people didn't die
         </p>
 
         {/* {this.state.Graves &&

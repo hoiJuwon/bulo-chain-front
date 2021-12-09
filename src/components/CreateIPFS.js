@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { create } from "../api/ipfs";
 import MassGrave from "./MassGrave";
-import { GraveInfo } from ".";
+import {isOccupied} from "../api/grave";
 
-function CreateIPFS({registerGrave, graves}) {
+function Create({registerGrave, graves}) {
   const [inputs, setInputs] = useState({
     name: "",
     note: "",
@@ -11,7 +11,7 @@ function CreateIPFS({registerGrave, graves}) {
     x: "",
     y: "",
   });
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState(null);
 
   const { name, note, birth, x, y } = inputs;
 
@@ -25,21 +25,23 @@ function CreateIPFS({registerGrave, graves}) {
 
   const onLocationChange = (x, y, grave) => {
     if(grave) {
-      console.log("set selected", grave.data);
+    console.log(grave.data);
       setSelected(grave.data);
-      console.log(selected);
+    } else {
+      setSelected(null);
     }
     setInputs({
       ...inputs,
-      x: x,
-      y: y,
+      x,
+      y
     });
+    if (isOccupied(x, y, graves)) return alert("해당 위치에 이미 묘지가 존재합니다.");
   };
 
-  const postIpfs = async () => {
-    if (!name || !note || !birth || !x || !y) return alert("모두 입력해주세요");
-    // if (isOccupied({ x, y, graves }) === true)
-    //   return alert("해당 위치에 이미 묘지가 존재합니다.");
+  const post = async () => {
+    if (!name || !note || !birth) return alert("모두 입력해주세요");
+    if (!x || !y) return alert("묘지를 선택해주세요");
+    if (isOccupied(x, y, graves)) return alert("해당 위치에 이미 묘지가 존재합니다.");
     const { data } = await create(name, note, birth, x, y);
     const { Hash } = data.data;
     console.log(Hash);
@@ -57,13 +59,20 @@ function CreateIPFS({registerGrave, graves}) {
         onChange={onChange}
         placeholder="birth"
       />
-      <input name="x" value={x} onChange={onChange} placeholder="x" />
-      <input name="y" value={y} onChange={onChange} placeholder="y" />
-      <button onClick={postIpfs}>post </button>
+      <input style={{visibility:'hidden'}} name="x" value={x} onChange={onChange} placeholder="x" />
+      <input style={{visibility:'hidden'}} name="y" value={y} onChange={onChange} placeholder="y" />
+      <button onClick={post}>post </button>
       <MassGrave onLocationChange={onLocationChange} graves={graves}/>
-      <GraveInfo grave={selected}/>
+      <div>
+        {selected ?  
+          <>
+            name : {selected[0]} <br/>
+            message: {selected[1]} <br/>
+            birth: {selected[2]} <br/> 
+          </>: "Empty Grave"}
+      </div>
     </div>
   );
 }
 
-export default CreateIPFS;
+export default Create;
