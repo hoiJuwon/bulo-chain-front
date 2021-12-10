@@ -66,10 +66,15 @@ function Create({registerGrave, graves}) {
       <div>
         {selected ?  
           <>
+            <div>🪦</div>
             name : {selected[0]} <br/>
             message: {selected[1]} <br/>
             birth: {selected[2]} <br/> 
-          </>: "Empty Grave"}
+          </>:
+          <>
+            <div>🌱Empty Grave</div>
+          </>
+        }
       </div>
     </div>
   );

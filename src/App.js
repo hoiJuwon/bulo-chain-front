@@ -46,16 +46,12 @@ class App extends Component {
       const data = await get(uri);
       const [x, y] = [data[3], data[4]];
       if(x!==undefined && y!==undefined) {
-        //console.log("gravesMap plot");
         gravesMap[parseInt(x,10)][parseInt(y,10)] = { tokenId, uri, data };
       }
-      //console.log(data);
       this.setState({
         Graves: [...this.state.Graves, { tokenId, uri, data }],
       });
     }
-    // return gravesMap;
-    // console.log(gravesMap);
     this.setState({
       GraveMap: gravesMap
     });
@@ -73,7 +69,6 @@ class App extends Component {
   }
 
   render() {
-    //console.log("asdf", this.state.GraveMap);
     return (
       <Web3ReactProvider getLibrary={getLibrary}>
         <Connect />
