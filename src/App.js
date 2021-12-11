@@ -1,8 +1,9 @@
 import { Web3ReactProvider } from "@web3-react/core";
 import Web3 from "web3";
-import { Connect, CreateIPFS } from "./components";
+import { Connect, CreateIPFS, Grave } from "./components";
 import { get } from "./api/ipfs";
-import { ABI, ADDRESS } from "./config";
+import { BULO_ABI, BULO_ADDRESS } from "./buloConfig";
+import { VAULT_ABI, VAULT_ADDRESS } from "./vaultConfig";
 import React, { Component } from "react";
 
 function getLibrary(provider) {
@@ -17,8 +18,12 @@ class App extends Component {
       Graves: [],
       GraveMap: Array.from(Array(10), () => new Array(10).fill(0)),
       loading: true,
+      myGrave: []
     };
     this.registerGrave = this.registerGrave.bind(this);
+    this.createVault = this.createVault.bind(this);
+    this.updateDonateTarget = this.updateDonateTarget.bind(this);
+    this.donateTo = this.donateTo.bind(this);
   }
 
   async componentDidMount() {
@@ -33,7 +38,7 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts();
     this.setState({ account: accounts[0] });
 
-    const bulo = new web3.eth.Contract(ABI, ADDRESS);
+    const bulo = new web3.eth.Contract(BULO_ABI, BULO_ADDRESS);
     this.setState({ bulo });
     const graveCount = await bulo.methods.graveCount().call();
     this.setState({ graveCount });
@@ -55,13 +60,58 @@ class App extends Component {
     this.setState({
       GraveMap: gravesMap
     });
-  }
 
+    const { uri: myUri, tokenId: myTokenId } = await bulo.methods.graveInfoOf(accounts[0]).call();
+    const myData = await get(myUri);
+    console.log(myData);
+    console.log(myTokenId);
+    this.setState({myGrave: [...myData, myTokenId]});
+  
+    const vault = new web3.eth.Contract(VAULT_ABI, VAULT_ADDRESS);
+    this.setState({ vault });
+    console.log(this.state.vault);
+
+    const vaultInfo = await vault.methods.vaultInfoOf(accounts[0]).call();
+    console.log(vaultInfo);
+    this.setState({myVault: vaultInfo});
+
+  }
 
   registerGrave(content) {
     this.setState({ loading: true });
     this.state.bulo.methods
       .registerGrave(content)
+      .send({ from: this.state.account })
+      .once("receipt", (receipt) => {
+        this.setState({ loading: false });
+      });
+  }
+
+  createVault(tokenId_, vaultOwner_, donateTarget_) {
+    console.log(tokenId_, vaultOwner_, donateTarget_);
+    this.setState({ loading: true });
+    this.state.vault.methods
+      .createVault(tokenId_, vaultOwner_, donateTarget_)
+      .send({ from: this.state.account })
+      .once("receipt", (receipt) => {
+        this.setState({ loading: false });
+      });
+  }
+
+  updateDonateTarget(vaultOwner_, donateTarget_) {
+    this.setState({ loading: true });
+    this.state.vault.methods
+      .updateDonateTarget(vaultOwner_, donateTarget_)
+      .send({ from: this.state.account })
+      .once("receipt", (receipt) => {
+        this.setState({ loading: false });
+      });
+  }
+
+  donateTo(vaultOwner_, amount) {
+    this.setState({ loading: true });
+    this.state.vault.methods
+      .donateTo(vaultOwner_, amount)
       .send({ from: this.state.account })
       .once("receipt", (receipt) => {
         this.setState({ loading: false });
@@ -77,15 +127,7 @@ class App extends Component {
         <p style={{ marginBottom: "30px" }}>
           {this.state.graveCount} people didn't die
         </p>
-
-        {/* {this.state.Graves &&
-          this.state.Graves.map((grave) => (
-            <div key={grave.tokenId}>
-              <p>Graves uri : {grave.uri}</p>
-              <p>Graves tokenId : {grave.tokenId}</p>
-              <p>Graves data : {grave.data}</p>
-            </div>
-          ))} */}
+        <Grave info={this.state.myGrave} vault={this.state.myVault} myAddress={this.state.account} createVault={this.createVault} updateDonateTarget={this.updateDonateTarget} donateTo={this.donateTo}/>
       </Web3ReactProvider>
     );
   }
