@@ -1,6 +1,6 @@
-export const ADDRESS = '0xF59c5b62F1B40c8c1083C8088E5dB9C4aF9FB3b0'
+export const BULO_ADDRESS = '0x3c7d3E1a8248920Bb059Ad2Ab2b4ab6a600De47B'
 
-export const ABI = 
+export const BULO_ABI = 
 [
 	{
 		"inputs": [
@@ -438,6 +438,25 @@ export const ABI =
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "uri",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
