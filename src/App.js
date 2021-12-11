@@ -120,14 +120,17 @@ class App extends Component {
 
   render() {
     return (
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <Connect />
-        <CreateIPFS registerGrave={this.registerGrave} graves={this.state.GraveMap}/>
-        <p>Your account : {this.state.account}</p>
-        <p style={{ marginBottom: "30px" }}>
-          {this.state.graveCount} people didn't die
-        </p>
-        <Grave info={this.state.myGrave} vault={this.state.myVault} myAddress={this.state.account} createVault={this.createVault} updateDonateTarget={this.updateDonateTarget} donateTo={this.donateTo}/>
+      <Web3ReactProvider getLibrary={getLibrary} style={{ display: "flex" }}>
+        <div style={{ float: "left" }}>
+          <Connect />
+          <p style={{ margin: "30px" }}>
+            {this.state.graveCount} people didn't die.
+          </p>
+          <CreateIPFS registerGrave={this.registerGrave} graves={this.state.GraveMap}/>
+        </div>
+        <div style={{ float: "left" }}>
+          <Grave info={this.state.myGrave} vault={this.state.myVault} myAddress={this.state.account} createVault={this.createVault} updateDonateTarget={this.updateDonateTarget} donateTo={this.donateTo}/>
+        </div>
       </Web3ReactProvider>
     );
   }

@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import TextField from '@mui/material/TextField';
 
 function Grave({info, vault, myAddress, createVault, donateTo, updateDonateTarget, vaultInfoOf}) {
     const [inputs, setInputs] = useState({
@@ -35,27 +38,35 @@ function Grave({info, vault, myAddress, createVault, donateTo, updateDonateTarge
     
     return (
     <>
-    <button>Check out my Grave</button>
-    name : {info[0]} <br/>
-    message: {info[1]} <br/>
-    birth: {info[2]} <br/>
-    tokenId: {info[5]} <br/>
-    your address: {myAddress}
+    <Button variant="outlined">Check out my Grave</Button>
+    <Card variant="outlined">
+        <div><strong>Grave</strong></div>
+        name : {info[0]} <br/>
+        message: {info[1]} <br/>
+        birth: {info[2]} <br/>
+        tokenId: {info[5]} <br/>
+        your address: {myAddress}
+    </Card>
     <div>
-        <div><strong>=Vault=</strong></div>
         {/* get Vault info */}
-        <div>isActive : {vault?.isActive === true ? "true" : "false"}</div>
-        <div>balance : {vault?.balanceOf}</div>
-        <div>tokenId : {vault?.tokenId}</div>
-        <div>donate target : {vault?.donateTarget}</div>
-        <input name="donateTarget" value={donateTarget} onChange={onChange} placeholder="donateTarget" />
-        {/* 내 무덤일 때 */}
-        <button onClick={create}>create vault</button> 
-        <button onClick={update}>change target</button>
-        {/* 내 무덤 or 다른 사람 무덤 */}
-        <div>🌹</div>
-        <input name="amount" value={amount} onChange={onChange} placeholder="amount" />
-        <button onClick={donate}>donate to this vault</button>
+        <Card variant="outlined">
+            <div><strong>Vault</strong></div>
+            <div>isActive : {vault?.isActive === true ? "true" : "false"}</div>
+            <div>balance : {vault?.balanceOf}</div>
+            <div>tokenId : {vault?.tokenId}</div>
+            <div>donate target : {vault?.donateTarget}</div>
+            <div>
+                <TextField name="donateTarget" value={donateTarget} onChange={onChange} placeholder="donateTarget" />
+                {/* 내 무덤일 때 */}
+                <Button variant="outlined" onClick={create}>create vault</Button> 
+                <Button variant="outlined" onClick={update}>change target</Button> 
+            </div>
+            {/* 내 무덤 or 다른 사람 무덤 */}
+            <div>
+                <TextField name="amount" value={amount} onChange={onChange} placeholder="amount" />
+                <Button variant="outlined" onClick={donate}>donate to this vault</Button>
+            </div>
+        </Card>
         <></>
     </div>
     </>

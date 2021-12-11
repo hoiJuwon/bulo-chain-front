@@ -2,6 +2,9 @@ import { useState } from "react";
 import { create } from "../api/ipfs";
 import MassGrave from "./MassGrave";
 import {isOccupied} from "../api/grave";
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import TextField from '@mui/material/TextField';
 
 function Create({registerGrave, graves}) {
   const [inputs, setInputs] = useState({
@@ -51,29 +54,29 @@ function Create({registerGrave, graves}) {
 
   return (
     <div>
-      <input name="name" value={name} onChange={onChange} placeholder="name" />
-      <input name="note" value={note} onChange={onChange} placeholder="note" />
-      <input
+      <TextField name="name" value={name} onChange={onChange} placeholder="name" />
+      <TextField name="note" value={note} onChange={onChange} placeholder="note" />
+      <TextField
         name="birth"
         value={birth}
         onChange={onChange}
         placeholder="birth"
       />
-      <input style={{visibility:'hidden'}} name="x" value={x} onChange={onChange} placeholder="x" />
-      <input style={{visibility:'hidden'}} name="y" value={y} onChange={onChange} placeholder="y" />
-      <button onClick={post}>post </button>
+      {/* <input style={{visibility:'hidden'}} name="x" value={x} onChange={onChange} placeholder="x" /> */}
+      {/* <input style={{visibility:'hidden'}} name="y" value={y} onChange={onChange} placeholder="y" /> */}
+      <Button variant="outlined" onClick={post}>post </Button>
       <MassGrave onLocationChange={onLocationChange} graves={graves}/>
       <div>
         {selected ?  
-          <>
+          <Card variant="outlined">
             <div>🪦</div>
             name : {selected[0]} <br/>
             message: {selected[1]} <br/>
             birth: {selected[2]} <br/> 
-          </>:
-          <>
+          </Card>:
+          <Card>
             <div>🌱Empty Grave</div>
-          </>
+          </Card>
         }
       </div>
     </div>

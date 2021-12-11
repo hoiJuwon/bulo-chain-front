@@ -1,14 +1,15 @@
 import React, {useState} from "react";
+import Button from '@mui/material/Button';
 
 function MassGrave({ onLocationChange, graves }) {
   function toImage(x, y, grave) {
     if (!grave)
       return (
-        <button className="grass" onClick={() => onLocationChange(x, y)}>
+        <Button className="grass" onClick={() => onLocationChange(x, y)}>
           🌱
-        </button>
+        </Button>
       );
-    else return <button className="grave" onClick={() => onLocationChange(x, y, grave)} key="{c.tokenId}">🪦</button>;
+    else return <Button className="grave" onClick={() => onLocationChange(x, y, grave)} key="{c.tokenId}">🪦</Button>;
   }
 
   return (
