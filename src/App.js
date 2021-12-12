@@ -25,6 +25,7 @@ class App extends Component {
     this.updateDonateTarget = this.updateDonateTarget.bind(this);
     this.donateTo = this.donateTo.bind(this);
     this.graveToOwner = this.graveToOwner.bind(this);
+    this.vaultInfoOf = this.vaultInfoOf.bind(this);
   }
 
   async componentDidMount() {
@@ -74,7 +75,7 @@ class App extends Component {
     this.setState({ vault });
     console.log(this.state.vault);
 
-    const vaultInfo = await vault.methods.vaultInfoOf(accounts[0]).call();
+    const vaultInfo = await this.vaultInfoOf(accounts[0]);
     console.log(vaultInfo);
     this.setState({ myVault: vaultInfo });
   }
@@ -124,6 +125,10 @@ class App extends Component {
     return (await this.state.bulo.methods.graveToOwner(tokenId).call());
   }
 
+  async vaultInfoOf(address) {
+    return (await this.state.vault.methods.vaultInfoOf(address).call());
+  }
+
   render() {
     return (
       <Web3ReactProvider getLibrary={getLibrary} style={{ display: "flex" }}>
@@ -138,6 +143,7 @@ class App extends Component {
             graves={this.state.GraveMap}
             donateTo={this.donateTo}
             graveToOwner={this.graveToOwner}
+            vaultInfoOf={this.vaultInfoOf}
           />
         </div>
         <div style={{ float: "left" }}>

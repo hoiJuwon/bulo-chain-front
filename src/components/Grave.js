@@ -54,16 +54,18 @@ function Grave({info, vault, myAddress, createVault, donateTo, updateDonateTarge
             <div>balance : {vault?.balanceOf}</div>
             <div>tokenId : {vault?.tokenId}</div>
             <div>donate target : {vault?.donateTarget}</div>
+            <div>lastDonationBlockNumber : {vault?.lastDonationBlockNumber}</div>
+            <div>contributors : {vault?.contributors}</div>
             <div>
                 <TextField name="donateTarget" value={donateTarget} onChange={onChange} placeholder="donateTarget" />
                 {/* 내 무덤일 때 */}
                 <Button variant="outlined" onClick={create}>create vault</Button> 
-                <Button variant="outlined" onClick={update}>change target</Button> 
+                <Button variant="outlined" onClick={update}>change donateTarget</Button> 
             </div>
             {/* 내 무덤 or 다른 사람 무덤 */}
             <div>
                 <TextField name="amount" value={amount} onChange={onChange} placeholder="amount" />
-                <Button variant="outlined" onClick={donate}>donate to this vault</Button>
+                <Button variant="outlined" onClick={donate}>add ETH to this vault</Button>
             </div>
         </Card>
         <></>

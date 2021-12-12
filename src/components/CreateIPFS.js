@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 
-function Create({ registerGrave, graves, donateTo, graveToOwner }) {
+function Create({ registerGrave, graves, donateTo, graveToOwner, vaultInfoOf }) {
   const [inputs, setInputs] = useState({
     name: "",
     note: "",
@@ -16,6 +16,7 @@ function Create({ registerGrave, graves, donateTo, graveToOwner }) {
     amount: 0,
   });
   const [selected, setSelected] = useState(null);
+  const [vault, setVault] = useState(null);
 
   const { name, note, birth, x, y, amount } = inputs;
 
@@ -34,6 +35,8 @@ function Create({ registerGrave, graves, donateTo, graveToOwner }) {
       const address = await graveToOwner(tokenId);
       console.log(address);
       setSelected([...grave.data, address]);
+      const vault = await vaultInfoOf(address);
+      setVault(vault);
     } else {
       setSelected([null, null, null, x, y]);
     }
@@ -79,6 +82,12 @@ function Create({ registerGrave, graves, donateTo, graveToOwner }) {
             birth: {selected[2]} <br />
             <div>💰 Vault</div>
             address: {selected[5]}
+            <div>isActive : {vault?.isActive === true ? "true" : "false"}</div>
+            <div>balance : {vault?.balanceOf}</div>
+            <div>tokenId : {vault?.tokenId}</div>
+            <div>donate target : {vault?.donateTarget}</div>
+            <div>lastDonationBlockNumber : {vault?.lastDonationBlockNumber}</div>
+            <div>contributors : {vault?.contributors}</div>
             <div>
                 <TextField name="amount" value={amount} onChange={onChange} placeholder="amount" />
                 <Button variant="outlined" onClick={donate}>donate to this vault</Button>
