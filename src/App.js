@@ -18,7 +18,7 @@ class App extends Component {
       Graves: [],
       GraveMap: Array.from(Array(10), () => new Array(10).fill(0)),
       loading: true,
-      myGrave: []
+      myGrave: [],
     };
     this.registerGrave = this.registerGrave.bind(this);
     this.createVault = this.createVault.bind(this);
@@ -29,7 +29,6 @@ class App extends Component {
   async componentDidMount() {
     this.loadBlockchainData();
   }
-
 
   async loadBlockchainData() {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
@@ -44,37 +43,38 @@ class App extends Component {
     this.setState({ graveCount });
 
     const gravesMap = Array.from(Array(11), () => new Array(11).fill(0));
-    
+
     for (var i = 0; i < graveCount; i++) {
       const grave = await bulo.methods.Graves(i).call();
       const { uri, tokenId } = grave;
       const data = await get(uri);
       const [x, y] = [data[3], data[4]];
-      if(x!==undefined && y!==undefined) {
-        gravesMap[parseInt(x,10)][parseInt(y,10)] = { tokenId, uri, data };
+      if (x !== undefined && y !== undefined) {
+        gravesMap[parseInt(x, 10)][parseInt(y, 10)] = { tokenId, uri, data };
       }
       this.setState({
         Graves: [...this.state.Graves, { tokenId, uri, data }],
       });
     }
     this.setState({
-      GraveMap: gravesMap
+      GraveMap: gravesMap,
     });
 
-    const { uri: myUri, tokenId: myTokenId } = await bulo.methods.graveInfoOf(accounts[0]).call();
+    const { uri: myUri, tokenId: myTokenId } = await bulo.methods
+      .graveInfoOf(accounts[0])
+      .call();
     const myData = await get(myUri);
     console.log(myData);
     console.log(myTokenId);
-    this.setState({myGrave: [...myData, myTokenId]});
-  
+    this.setState({ myGrave: [...myData, myTokenId] });
+
     const vault = new web3.eth.Contract(VAULT_ABI, VAULT_ADDRESS);
     this.setState({ vault });
     console.log(this.state.vault);
 
     const vaultInfo = await vault.methods.vaultInfoOf(accounts[0]).call();
     console.log(vaultInfo);
-    this.setState({myVault: vaultInfo});
-
+    this.setState({ myVault: vaultInfo });
   }
 
   registerGrave(content) {
@@ -124,12 +124,23 @@ class App extends Component {
         <div style={{ float: "left" }}>
           <Connect />
           <p style={{ margin: "30px" }}>
-            {this.state.graveCount} people didn't die.
+            {this.state.graveCount} people didn't die. Click 🌱 to make your
+            grave.
           </p>
-          <CreateIPFS registerGrave={this.registerGrave} graves={this.state.GraveMap}/>
+          <CreateIPFS
+            registerGrave={this.registerGrave}
+            graves={this.state.GraveMap}
+          />
         </div>
         <div style={{ float: "left" }}>
-          <Grave info={this.state.myGrave} vault={this.state.myVault} myAddress={this.state.account} createVault={this.createVault} updateDonateTarget={this.updateDonateTarget} donateTo={this.donateTo}/>
+          <Grave
+            info={this.state.myGrave}
+            vault={this.state.myVault}
+            myAddress={this.state.account}
+            createVault={this.createVault}
+            updateDonateTarget={this.updateDonateTarget}
+            donateTo={this.donateTo}
+          />
         </div>
       </Web3ReactProvider>
     );
