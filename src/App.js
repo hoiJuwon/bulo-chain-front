@@ -24,6 +24,7 @@ class App extends Component {
     this.createVault = this.createVault.bind(this);
     this.updateDonateTarget = this.updateDonateTarget.bind(this);
     this.donateTo = this.donateTo.bind(this);
+    this.graveToOwner = this.graveToOwner.bind(this);
   }
 
   async componentDidMount() {
@@ -47,6 +48,7 @@ class App extends Component {
     for (var i = 0; i < graveCount; i++) {
       const grave = await bulo.methods.Graves(i).call();
       const { uri, tokenId } = grave;
+      console.log(uri, tokenId);
       const data = await get(uri);
       const [x, y] = [data[3], data[4]];
       if (x !== undefined && y !== undefined) {
@@ -118,6 +120,10 @@ class App extends Component {
       });
   }
 
+  async graveToOwner(tokenId) {
+    return (await this.state.bulo.methods.graveToOwner(tokenId).call());
+  }
+
   render() {
     return (
       <Web3ReactProvider getLibrary={getLibrary} style={{ display: "flex" }}>
@@ -130,6 +136,8 @@ class App extends Component {
           <CreateIPFS
             registerGrave={this.registerGrave}
             graves={this.state.GraveMap}
+            donateTo={this.donateTo}
+            graveToOwner={this.graveToOwner}
           />
         </div>
         <div style={{ float: "left" }}>

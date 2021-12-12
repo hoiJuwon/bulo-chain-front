@@ -6,17 +6,18 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 
-function Create({ registerGrave, graves }) {
+function Create({ registerGrave, graves, donateTo, graveToOwner }) {
   const [inputs, setInputs] = useState({
     name: "",
     note: "",
     birth: "",
     x: "",
     y: "",
+    amount: 0,
   });
   const [selected, setSelected] = useState(null);
 
-  const { name, note, birth, x, y } = inputs;
+  const { name, note, birth, x, y, amount } = inputs;
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -26,10 +27,13 @@ function Create({ registerGrave, graves }) {
     });
   };
 
-  const onLocationChange = (x, y, grave) => {
+  const onLocationChange = async (x, y, grave) => {
     if (grave) {
       console.log(grave.data);
-      setSelected(grave.data);
+      const tokenId = grave.tokenId;
+      const address = await graveToOwner(tokenId);
+      console.log(address);
+      setSelected([...grave.data, address]);
     } else {
       setSelected([null, null, null, x, y]);
     }
@@ -39,6 +43,11 @@ function Create({ registerGrave, graves }) {
       y,
     });
     // if (isOccupied(x, y, graves)) return alert("해당 위치에 이미 묘지가 존재합니다.");
+  };
+
+  const donate = async () => {
+    alert(`donate ${selected[5]} ${inputs.amount}`);
+    donateTo(selected[5], inputs.amount);
   };
 
   const post = async () => {
@@ -68,6 +77,12 @@ function Create({ registerGrave, graves }) {
             name : {selected[0]} <br />
             message: {selected[1]} <br />
             birth: {selected[2]} <br />
+            <div>💰 Vault</div>
+            address: {selected[5]}
+            <div>
+                <TextField name="amount" value={amount} onChange={onChange} placeholder="amount" />
+                <Button variant="outlined" onClick={donate}>donate to this vault</Button>
+            </div>
           </Card>
         ) : (
           <Card variant="outlined">

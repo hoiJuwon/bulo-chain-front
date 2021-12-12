@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 
 function MassGrave({ onLocationChange, graves, x, y }) {
   function toImage(x, y, grave) {
+    // console.log(grave);
     if (!grave)
       return (
         <Button className="grass" onClick={() => onLocationChange(x, y, null)}>

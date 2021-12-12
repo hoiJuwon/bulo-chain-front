@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 
-function Grave({info, vault, myAddress, createVault, donateTo, updateDonateTarget, vaultInfoOf}) {
+function Grave({info, vault, myAddress, createVault, donateTo, updateDonateTarget}) {
     const [inputs, setInputs] = useState({
         donateTarget: "",
         amount: 0,
@@ -38,9 +38,8 @@ function Grave({info, vault, myAddress, createVault, donateTo, updateDonateTarge
     
     return (
     <>
-    <Button variant="outlined">Check out my Grave</Button>
     <Card variant="outlined">
-        <div><strong>Grave</strong></div>
+        <div><strong>My Grave</strong></div>
         name : {info[0]} <br/>
         message: {info[1]} <br/>
         birth: {info[2]} <br/>
@@ -50,7 +49,7 @@ function Grave({info, vault, myAddress, createVault, donateTo, updateDonateTarge
     <div>
         {/* get Vault info */}
         <Card variant="outlined">
-            <div><strong>Vault</strong></div>
+            <div><strong> My Vault</strong></div>
             <div>isActive : {vault?.isActive === true ? "true" : "false"}</div>
             <div>balance : {vault?.balanceOf}</div>
             <div>tokenId : {vault?.tokenId}</div>
