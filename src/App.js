@@ -131,7 +131,7 @@ class App extends Component {
   }
 
   async vaultInfoOf(address) {
-    return (await this.state.vault.methods.vaultInfoOf(address).call());
+    return (await this?.state.vault.methods.vaultInfoOf(address).call());
   }
 
   render() {

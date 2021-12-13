@@ -23,8 +23,8 @@ function Grave({info, vault, myAddress, createVault, donateTo, updateDonateTarge
     };
 
     const donate = async () => {
-        alert(`donate ${inputs.donateTarget} ${inputs.amount}`);
-        donateTo(inputs.donateTarget, inputs.amount);
+        alert(`donate ${inputs.amount} eth to ${myAddress}`);
+        donateTo(myAddress, inputs.amount);
     };
     const create = async () => {
         alert(`create vault ${info[5]} ${myAddress}->${inputs.donateTarget}`);
