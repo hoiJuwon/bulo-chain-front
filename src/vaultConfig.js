@@ -1,4 +1,4 @@
-export const VAULT_ADDRESS = '0x7E66F3DB4c9606e79F1b161985888335AE7c46E2'
+export const VAULT_ADDRESS = '0x4E862beA9282b962163564a8DBcA638601CFC929'
 
 export const VAULT_ABI = 
 [
@@ -6,71 +6,46 @@ export const VAULT_ABI =
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "donationBlockGap_",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
+		"name": "Graves",
+		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "tokenId_",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "vaultOwner_",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "donateTarget_",
-				"type": "address"
-			}
-		],
-		"name": "createVault",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "vaultOwner_",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "donateTarget_",
-				"type": "address"
-			}
-		],
-		"name": "updateDonateTarget",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "vaultOwner_",
-				"type": "address"
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "amount",
+				"name": "tokenId",
 				"type": "uint256"
 			}
 		],
-		"name": "donateTo",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"anonymous": false,
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "getMyTokenId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -78,35 +53,58 @@ export const VAULT_ABI =
 				"type": "address"
 			}
 		],
-		"name": "vaultInfoOf",
+		"name": "graveInfoOf",
 		"outputs": [
 			{
-				"internalType": "bool",
-				"name": "isActive",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "balanceOf",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
 			},
 			{
 				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
-			},
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "lastDonationBlockNumber",
+				"name": "",
 				"type": "uint256"
-			},
+			}
+		],
+		"name": "graveToOwner",
+		"outputs": [
 			{
 				"internalType": "address",
-				"name": "donateTarget",
+				"name": "",
 				"type": "address"
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_uri",
+				"type": "string"
+			}
+		],
+		"name": "registerGrave",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]
