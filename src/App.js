@@ -73,11 +73,16 @@ class App extends Component {
 
     const vault = new web3.eth.Contract(VAULT_ABI, VAULT_ADDRESS);
     this.setState({ vault });
-    console.log(this.state.vault);
+    console.log("this.state.vault : ",vault.methods);
 
     const vaultInfo = await this.vaultInfoOf(accounts[0]);
-    console.log(vaultInfo);
-    this.setState({ myVault: vaultInfo });
+    if (vaultInfo==null){
+      console.log("empty vault");
+    }
+    else {
+      console.log(vaultInfo);
+      this.setState({ myVault: vaultInfo });
+    }
   }
 
   registerGrave(content) {
