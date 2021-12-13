@@ -120,7 +120,7 @@ class App extends Component {
     this.setState({ loading: true });
     this.state.vault.methods
       .donateTo(vaultOwner_, amount)
-      .send({ from: this.state.account })
+      .send({ from: this.state.account, value: amount })
       .once("receipt", (receipt) => {
         this.setState({ loading: false });
       });
