@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/bulo-chain-front/static/js/main.869f5e8a.chunk.js",
-    "main.js.map": "/bulo-chain-front/static/js/main.869f5e8a.chunk.js.map",
-    "runtime-main.js": "/bulo-chain-front/static/js/runtime-main.c19b0a91.js",
-    "runtime-main.js.map": "/bulo-chain-front/static/js/runtime-main.c19b0a91.js.map",
-    "static/js/2.670d139d.chunk.js": "/bulo-chain-front/static/js/2.670d139d.chunk.js",
-    "static/js/2.670d139d.chunk.js.map": "/bulo-chain-front/static/js/2.670d139d.chunk.js.map",
-    "static/js/3.7efadd4b.chunk.js": "/bulo-chain-front/static/js/3.7efadd4b.chunk.js",
-    "static/js/3.7efadd4b.chunk.js.map": "/bulo-chain-front/static/js/3.7efadd4b.chunk.js.map",
+    "main.js": "/bulo-chain-front/static/js/main.fcad010c.chunk.js",
+    "main.js.map": "/bulo-chain-front/static/js/main.fcad010c.chunk.js.map",
+    "runtime-main.js": "/bulo-chain-front/static/js/runtime-main.b1edbb90.js",
+    "runtime-main.js.map": "/bulo-chain-front/static/js/runtime-main.b1edbb90.js.map",
+    "static/js/2.5a010240.chunk.js": "/bulo-chain-front/static/js/2.5a010240.chunk.js",
+    "static/js/2.5a010240.chunk.js.map": "/bulo-chain-front/static/js/2.5a010240.chunk.js.map",
+    "static/js/3.553333f6.chunk.js": "/bulo-chain-front/static/js/3.553333f6.chunk.js",
+    "static/js/3.553333f6.chunk.js.map": "/bulo-chain-front/static/js/3.553333f6.chunk.js.map",
     "index.html": "/bulo-chain-front/index.html",
-    "static/js/2.670d139d.chunk.js.LICENSE.txt": "/bulo-chain-front/static/js/2.670d139d.chunk.js.LICENSE.txt"
+    "static/js/2.5a010240.chunk.js.LICENSE.txt": "/bulo-chain-front/static/js/2.5a010240.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.c19b0a91.js",
-    "static/js/2.670d139d.chunk.js",
-    "static/js/main.869f5e8a.chunk.js"
+    "static/js/runtime-main.b1edbb90.js",
+    "static/js/2.5a010240.chunk.js",
+    "static/js/main.fcad010c.chunk.js"
   ]
 }
